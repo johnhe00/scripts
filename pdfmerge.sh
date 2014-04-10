@@ -32,7 +32,7 @@ function build {
 function main {
   IFS=$'\n'
   local command="$(build $@)"
-  eval $command
+  $command
 }
 
 main $@
