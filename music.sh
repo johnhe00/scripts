@@ -1,15 +1,24 @@
 #!/bin/bash
 
-function usage {
-    echo ""
-}
-
 function error {
   printf "$@" 1>&2
 }
 
-function params {
-    printf "Help\n"
+function usage {
+cat << EOF
+usage: music <command> <dirs>
+
+commands:
+    prune
+        music prune <dir1> [<dirs>]
+        Remove non-mp3 and empty files and folders in the given directories.
+    sync
+        music sync <src1> [<srcs>] <dst>
+        'rsync -hmrtW --delete-delay --progress' for the given sources and destination.
+    unicode
+        music unicode <dir1> [<dirs>]
+        Find filenames with unicode characters in the given directories.
+EOF
 }
 
 function prune {
@@ -60,7 +69,7 @@ function unicode {
 
 function main {
     if [ $# -lt 1 ]; then
-        error "$(usage)"
+        usage
         exit 1
     fi
 
@@ -68,9 +77,6 @@ function main {
     shift
 
     case $COMMAND in
-        help)
-            params
-        ;;
         prune)
             prune "$@"
         ;;
@@ -81,7 +87,8 @@ function main {
             unicode "$@"
         ;;
         *)
-            printf "Unrecognized Command\n"
+            printf "unrecognized command: $COMMAND\n"
+            usage
         ;;
     esac
 }
