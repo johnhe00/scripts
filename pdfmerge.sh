@@ -1,15 +1,15 @@
 #!/bin/bash
 
-function usage() {
+function usage {
   printf "Usage: pdfmerge <inputs *> <output>\n"
 }
 
-function error() {
+function error {
   printf "$@" 1>&2
   exit 1
 }
 
-function build() {
+function build {
   if [ $# -lt 2 ]; then
     error "$(usage)"
   fi
@@ -29,7 +29,7 @@ function build() {
   return 0
 }
 
-function main() {
+function main {
   IFS=$'\n'
   local command="$(build $@)"
   eval $command
