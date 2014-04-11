@@ -1,18 +1,35 @@
 #!/bin/bash
 
 function main() {
-  if `echo "$@" | grep -qi '\.n64$'`; then
-    mupen64plus "$@"
-  elif `echo "$@" | grep -qi '\.gba$'`; then
-    mednafen "$@"
-  elif `echo $@ | grep -qi '\.pdf$'`; then
-    evince "$@" &
-  elif `echo $@ | grep -qi '\.mkv$'`; then
-    vlc "$@" &
-  else
-    echo "unknown file type: $@"
-    exit 1
+  if [ -d "$@" ]; then
+    nautilus "$@"
+    exit 0
   fi
+  local ext="${@##*.}"
+  ext=$(printf $ext | tr 'A-Z' 'a-z')
+
+  # nohup cmd "$@" >/dev/null 2>&1 &
+  case $ext in
+    n64)
+      nohup mupen64plus "$@" >/dev/null 2>&1 &
+      ;;
+    gba)
+      nohup mednafen "$@" >/dev/null 2>&1 &
+      ;;
+    pdf)
+      nohup evince "$@" >/dev/null 2>&1 &
+      ;;
+    mkv|mid|midi|mp4|mp3|avi)
+      nohup vlc "$@" >/dev/null 2>&1 &
+      ;;
+    txt|py|c|cpp|cc|log|out|java)
+      nohup gedit "$@" >/dev/null 2>&1 &
+      ;;
+    *)
+      printf "unknown file type: $ext\n"
+      exit 1
+      ;;
+    esac
 }
 
 main "$@"
