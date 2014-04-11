@@ -1,15 +1,15 @@
 #!/bin/bash
 
-function app_check {
+app_check() {
   local app_name=$1
-  if `screen -ls | grep -q $app_name`; then
+  if $(screen -ls | grep -q $app_name); then
     printf 'started'
   else
     printf 'stopped'
   fi
 }
 
-function app_open {
+app_open() {
   local app_name=$1
   if [ $(app_check $app_name) == 'started' ]; then
     screen -r $app_name
@@ -18,7 +18,7 @@ function app_open {
   fi
 }
 
-function app_stop {
+app_stop() {
   local app_name=$1
   if [ $(app_check $app_name) == 'started' ]; then
     printf "stopping $app_name\n"
@@ -28,7 +28,7 @@ function app_stop {
   fi
 }
 
-function app_start {
+app_start() {
   local app_name=$1
   shift
   if [ $(app_check $app_name) == 'started' ]; then

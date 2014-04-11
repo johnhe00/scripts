@@ -1,12 +1,12 @@
 #!/bin/bash
 
-function usage {
+usage() {
 cat << EOF
 usage: pdfmerge <inputs> <output>
 EOF
 }
 
-function main {
+main() {
   # Last parameter
   local output=${!#}
   # Everything else

@@ -1,10 +1,6 @@
 #!/bin/bash
 
-function error {
-  printf "$@" 1>&2
-}
-
-function usage {
+usage() {
 cat << EOF
 usage: music <command> <dirs>
 
@@ -21,7 +17,7 @@ commands:
 EOF
 }
 
-function prune {
+prune() {
   for file in "$@"; do
     find "$file" -type f -not -iname "*.mp3" -exec rm -i {} \;
   done
@@ -31,7 +27,7 @@ function prune {
   done
 }
 
-function sync {
+sync() {
   local DRY="rsync -himnrtW"
   local WET="rsync -hmrtW --delete-delay --progress"
   for file in "$@"; do
@@ -53,17 +49,13 @@ function sync {
   esac
 }
 
-function unicode {
+unicode() {
   for file in "$@"; do
-    if [ ! -e "$file" ]; then
-      error "$file does not exist\n"
-      continue
-    fi
     find "$file" | grep --color -P "[^[:ascii:]]"
   done
 }
 
-function main {
+main() {
   if [ $# -lt 1 ]; then
     usage
     exit 1
