@@ -25,6 +25,9 @@ function main() {
     txt|py|c|cpp|cc|log|out|java)
       nohup gedit "$@" >/dev/null 2>&1 &
       ;;
+    zip|rar|tar|jar|gz|tgz|bz2)
+      nohup file-roller "$@" >/dev/null 2>&1 &
+      ;;
     *)
       printf "unknown file type: $ext\n"
       exit 1
