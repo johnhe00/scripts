@@ -30,18 +30,13 @@ prune() {
 sync() {
   local DRY="rsync -himnrtW"
   local WET="rsync -hmrtW --delete-delay --progress"
-  for file in "$@"; do
-    local escaped=$(printf "$file" | sed 's/ /\\ /g')
-    DRY="$DRY $escaped"
-    WET="$WET $escaped"
-  done
 
-  $DRY
+  $DRY "$@"
 
   read -p "Execute? [y/n] " response
   case $response in
     [Yy])
-      $WET
+      $WET "$@"
       ;;
     *)
       printf "Aborting ...\n"
@@ -56,7 +51,7 @@ unicode() {
 }
 
 main() {
-  if [ $# -lt 1 ]; then
+  if [[ $# -lt 1 ]]; then
     usage
     exit 1
   fi

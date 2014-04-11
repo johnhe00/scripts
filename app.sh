@@ -11,7 +11,7 @@ app_check() {
 
 app_open() {
   local app_name=$1
-  if [ $(app_check $app_name) == 'started' ]; then
+  if [[ $(app_check $app_name) = 'started' ]]; then
     screen -r $app_name
   else
     printf "$app_name is not running\n"
@@ -20,7 +20,7 @@ app_open() {
 
 app_stop() {
   local app_name=$1
-  if [ $(app_check $app_name) == 'started' ]; then
+  if [[ $(app_check $app_name) = 'started' ]]; then
     printf "stopping $app_name\n"
     screen -S $app_name -X quit
   else
@@ -31,7 +31,7 @@ app_stop() {
 app_start() {
   local app_name=$1
   shift
-  if [ $(app_check $app_name) == 'started' ]; then
+  if [[ $(app_check $app_name) = 'started' ]]; then
     printf "$app_name is already running\n"
   else
     printf "starting $app_name\n"

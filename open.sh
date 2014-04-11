@@ -1,12 +1,12 @@
 #!/bin/bash
 
 function main() {
-  if [ -d "$@" ]; then
+  if [[ -d "$@" ]]; then
     nautilus "$@"
     exit 0
   fi
   local ext="${@##*.}"
-  ext=$(printf $ext | tr 'A-Z' 'a-z')
+  ext=$(printf $ext | tr '[:upper:]' '[:lower:]')
 
   # nohup cmd "$@" >/dev/null 2>&1 &
   case $ext in

@@ -12,7 +12,7 @@ main() {
   # Everything else
   local inputs=${@:1:$(($#-1))}
 
-  if [ -z "$inputs" ]; then
+  if [[ -z "$inputs" ]]; then
     usage
     exit 1
   fi
