@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function app_check {
-  app_name=$1
+  local app_name=$1
   if `screen -ls | grep -q $app_name`; then
     printf 'started'
   else
@@ -10,9 +10,8 @@ function app_check {
 }
 
 function app_open {
-  app_name=$1
-  local status=$(app_check $app_name)
-  if [ $status == 'started' ]; then
+  local app_name=$1
+  if [ $(app_check $app_name) == 'started' ]; then
     screen -r $app_name
   else
     printf "$app_name is not running\n"
@@ -20,8 +19,8 @@ function app_open {
 }
 
 function app_stop {
-  app_name=$1
-  if `screen -ls | grep -q $app_name`; then
+  local app_name=$1
+  if [ $(app_check $app_name) == 'started' ]; then
     printf "stopping $app_name\n"
     screen -S $app_name -X quit
   else
@@ -30,9 +29,9 @@ function app_stop {
 }
 
 function app_start {
-  app_name=$1
+  local app_name=$1
   shift
-  if `screen -ls | grep -q $app_name`; then
+  if [ $(app_check $app_name) == 'started' ]; then
     printf "$app_name is already running\n"
   else
     printf "starting $app_name\n"
