@@ -33,9 +33,9 @@ sync() {
 
   $DRY "$@"
 
-  read -p "Execute? [y/n] " response
+  read -p "Execute? [yes/N] " response
   case $response in
-    [Yy])
+    yes)
       $WET "$@"
       ;;
     *)
