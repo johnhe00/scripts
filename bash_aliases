@@ -9,6 +9,7 @@ alias audio-reset='pulseaudio -k && sudo alsa reload'
 alias net-reset='sudo modprobe -r ath9k && sudo modprobe ath9k'
 alias myip='curl http://john-he.com/api/ip/'
 alias server='python -m SimpleHTTPServer'
+alias proxy='ssh -D 12345 glacier'
 
 alias usd2cad='/home/johnhe00/scripts/usd2cad.sh'
 alias open='/home/johnhe00/scripts/open.sh'
