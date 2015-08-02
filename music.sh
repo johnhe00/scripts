@@ -5,6 +5,12 @@ cat << EOF
 usage: music <command> <dirs>
 
 commands:
+    filename
+        music filename <dir>
+        Check for illegal file/path characters for Windows.
+    mount
+        music mount <dir>
+        Mounts a directory to ~/Music/
     prune
         music prune <dir1> [<dirs>]
         Remove non-mp3 and empty files and folders in the given directories.
@@ -17,18 +23,61 @@ commands:
 EOF
 }
 
-prune() {
+filename() {
   for file in "$@"; do
-    find "$file" -type f -not -iname "*.mp3" -exec rm -i {} \;
-  done
-
-  for file in "$@"; do
-    find "$file" -empty -exec rm -ri {} \;
+    find "$file" | grep -E --color "\"|<|>|:|\\|\||\?|\*"
   done
 }
 
+mount() {
+  local MUSIC=/home/johnhe00/Music
+
+  if [ -L "$MUSIC" ]; then
+    read -p "Link already exists. Replace? [yes/N] " response
+    case $response in
+    yes)
+      rm -i "$MUSIC"
+    ;;
+    *)
+    ;;
+    esac
+  fi
+
+  if [ ! -e "$MUSIC" ]; then
+    if [ -d "$@" ]; then
+      ln -s "$@" "$MUSIC"
+    else
+      printf "$@ doesn't exist"
+    fi
+  fi
+}
+
+prune() {
+  for file in "$@"; do
+    find "$file" -type f -not -iname "*.mp3"
+  done
+
+  read -p "Delete? [yes/N] " response
+  case $response in
+    yes)
+      for file in "$@"; do
+        find "$file" -type f -not -iname "*.mp3" -exec rm {} \;
+      done
+
+      sleep 1
+
+      for file in "$@"; do
+        find "$file" -empty -exec rmdir {} \;
+      done
+    ;;
+    *)
+      printf "Aborting ...\n"
+    ;;
+  esac
+}
+
 sync() {
-  local DRY="rsync -himnrtW"
+  local DRY="rsync -himnrt"
   local WET="rsync -hmrtW --delete-delay --progress"
 
   $DRY "$@"
@@ -60,6 +109,12 @@ main() {
   shift
 
   case $COMMAND in
+    filename)
+      filename "$@"
+      ;;
+    mount)
+      mount "$@"
+      ;;
     prune)
       prune "$@"
       ;;
