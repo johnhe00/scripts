@@ -5,8 +5,9 @@ function main() {
     nautilus "$@"
     exit 0
   fi
+
   local ext="${@##*.}"
-  ext=$(printf $ext | tr '[:upper:]' '[:lower:]')
+  ext=$(printf "$ext" | tr '[:upper:]' '[:lower:]')
 
   # nohup cmd "$@" >/dev/null 2>&1 &
   case $ext in
@@ -19,10 +20,10 @@ function main() {
     pdf)
       nohup evince "$@" >/dev/null 2>&1 &
       ;;
-    mkv|mid|midi|mp4|mp3|avi)
+    mkv|mid|midi|mp4|mp3|avi|mid|midi|flac|ogg|ogv|wav)
       nohup vlc "$@" >/dev/null 2>&1 &
       ;;
-    txt|py|c|cpp|cc|log|out|java)
+    txt|py|c|cpp|cc|log|out|java|ly)
       nohup gedit "$@" >/dev/null 2>&1 &
       ;;
     zip|rar|tar|jar|gz|tgz|bz2)
