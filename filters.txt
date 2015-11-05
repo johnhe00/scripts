@@ -1,0 +1,7 @@
+||facebook.com/ajax/notifications/mark_read.php
+||facebook.com/ajax/mercury/change_read_status.php
+||facebook.com/ajax/messaging/typ.php
+||facebook.com/plugins/*
+||connect.facebook.com
+||connect.facebook.net
+||youtube.com/annotations_
